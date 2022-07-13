@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { UserDataService } from './services/user-data.service'
-import { NgForm } from '@angular/forms';
-// import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 
 @Component({
@@ -11,15 +10,28 @@ import { NgForm } from '@angular/forms';
 })
 export class AppComponent {
   title = 'angular-demo';
-  formDisplay = true
+  formDisplay = false
+  userList:any;
+  constructor(private userDataService: UserDataService) {
+    this.getUsers();
+  }
+
+  userFormValidation = new FormGroup({
+    title: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z]+$')]),
+    body: new FormControl('', [Validators.required, Validators.minLength(10)])
+  })
+  get titleValid() {
+    return this.userFormValidation.get('title')
+  }
+  get body() {
+    return this.userFormValidation.get('body')
+  }
   toggleForm() {
     this.formDisplay = !this.formDisplay;
   }
 
-  userList:any;
-  constructor(private userDetail: UserDataService) {
-    console.log("userInfo", userDetail, userDetail.userListData())
-    this.userDetail.userListData().subscribe((data: any) => {
+  getUsers() {
+    this.userDataService.userListData().subscribe((data: any) => {
       console.log("data", data)
       this.userList = data
     })
@@ -27,13 +39,16 @@ export class AppComponent {
 
   getUserFormData(data: any) {
     console.log(data)
-    this.userDetail.saveUser(data).subscribe((result: any) => {
+    this.userDataService.saveUser(data).subscribe((result: any) => {
       console.log("data post",data, result)
+      this.getUsers();
     })
   }
+  removeData(id:any){
+    console.log("removeData", id)
+    this.userList = this.userList.filter((item: any) => item.id !== id);
+    this.getUsers()
+  }
   
-  // userFormData = new FormGroup({
-  //   title: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z]+$')]),
-  //   body: new FormControl('', [Validators.required, Validators.minLength(100)])
-  // })
+ 
 }

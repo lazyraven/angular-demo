@@ -1,64 +1,67 @@
-<div class="m-3" (click)="toggleForm()">
-    <button class="rounded-md bg-blue-600 p-2">Add User</button>
-</div>
-<div *ngIf="formDisplay" class="border-2 border-slate-100 m-2 rounded-md w-96">
-    <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
-            <div>
-                <!-- <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+<div class="container mx-auto">
+
+    <div class="max-w-7xl mx-auto">
+        <div class="m-3 w-96 mx-auto" (click)="toggleForm()">
+            <button class="rounded-md bg-white border p-2">Add User</button>
+        </div>
+        <div *ngIf="formDisplay" class="border-2 border-slate-100 m-2 rounded-md w-96 mx-auto">
+            <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-md w-full space-y-8">
+                    <div>
+                        <!-- <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                     alt="Workflow"> -->
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Add User Form</h2>
+                        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Add User Form</h2>
+                    </div>
+                    <form class="mt-8 space-y-6" #userForm="ngForm" (ngSubmit)="getUserFormData(userForm.value)"
+                        [formGroup]="userFormValidation">
+                        <input type="hidden" name="remember" value="true">
+                        <div class="rounded-md shadow-sm -space-y-px">
+                            <div>
+                                <label for="title" class="sr-only">Title address</label>
+                                <input id="title" ngModel name="title" type="text" formControlName="title"
+                                    class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                    placeholder="Enter Title">
+                                <span style="color: red;"
+                                    *ngIf="titleValid&&titleValid.invalid && titleValid.touched">This field is not
+                                    valid</span>
+
+                            </div>
+                            <br />
+                            <div>
+                                <label for="desc" class="sr-only">Description</label>
+                                <input id="desc" ngModel name="body" type="text" formControlName="body" required
+                                    class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                    placeholder="Enter Description">
+                                <span style="color: red;" *ngIf="body&&body.invalid && body.touched">This field is not
+                                    valid</span>
+
+                            </div>
+                            <br />
+                        </div>
+                        <!-- [disabled]="userFormValidation.invalid" -->
+                        <div>
+                            <button type="submit" [disabled]="userFormValidation.invalid"
+                                class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Add User
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form class="mt-8 space-y-6" #userForm="ngForm" (ngSubmit)="getUserFormData(userForm.value)" >
-                <input type="hidden" name="remember" value="true">
-                <div class="rounded-md shadow-sm -space-y-px">
-                    <div>
-                        <label for="title" class="sr-only">Title address</label>
-                        <input id="title" ngModel name="title" type="text" required
-                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                            placeholder="Enter Title">
-                    </div>
-                    <br/>
-                    <div>
-                        <label for="desc" class="sr-only">Description</label>
-                        <input id="desc" ngModel name="body" type="text" required
-                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                            placeholder="Enter Description">
-                    </div>
-                    <br/>
-                    <!-- <div>
-                        <label for="password" class="sr-only">Password</label>
-                        <input id="password" name="password" type="password" autocomplete="current-password" required
-                            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                            placeholder="Password">
-                    </div> -->
-                </div>
-                <div>
-                    <button type="submit"
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Add User
-                    </button>
-                </div>
-            </form>
+        </div>
+    </div>
+
+    <div class="m-3 justify-center w-fit mx-auto">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="border-t border-gray-200 p-4">
+                <ul *ngFor="let user of userList">
+                    <li>{{user.id}}--{{user.title}}
+                        <div class="text-right">
+                            <button class="bg-red-600 p-2 m-2 rounded-md" (click)="removeData(user.id)">Remove</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
-
-
-<!-- data list -->
-
-<!-- This example requires Tailwind CSS v2.0+ -->
-<div class="m-3 justify-center">
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg leading-6 font-medium text-gray-900">Applicant Information</h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
-        </div>
-        <div class="border-t border-gray-200">
-            <ul *ngFor ="let user of userList">
-                <li>{{user.id}}--{{user.title}}</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
