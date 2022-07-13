@@ -17,7 +17,7 @@ export class AppComponent {
   }
 
   userFormValidation = new FormGroup({
-    title: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z]+$')]),
+    title: new FormControl('', [Validators.required, Validators.pattern('[a-z A-Z]+$')]),
     body: new FormControl('', [Validators.required, Validators.minLength(10)])
   })
   get titleValid() {
@@ -31,23 +31,23 @@ export class AppComponent {
   }
 
   getUsers() {
-    this.userDataService.userListData().subscribe((data: any) => {
+    this.userDataService.getUserList().subscribe((data: any) => {
       console.log("data", data)
       this.userList = data
     })
   }
 
-  getUserFormData(data: any) {
+  postUserFormData(data: any) {
     console.log(data)
     this.userDataService.saveUser(data).subscribe((result: any) => {
       console.log("data post",data, result)
       this.getUsers();
     })
   }
-  removeData(id:any){
+  removeUser(id:any){
     console.log("removeData", id)
     this.userList = this.userList.filter((item: any) => item.id !== id);
-    this.getUsers()
+    // this.getUsers()
   }
   
  
