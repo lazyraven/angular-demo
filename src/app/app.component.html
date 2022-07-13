@@ -9,19 +9,19 @@
                     alt="Workflow"> -->
                 <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Add User Form</h2>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST">
+            <form class="mt-8 space-y-6" #userForm="ngForm" (ngSubmit)="getUserFormData(userForm.value)" >
                 <input type="hidden" name="remember" value="true">
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
                         <label for="title" class="sr-only">Title address</label>
-                        <input id="title" name="title" type="text" required
+                        <input id="title" ngModel name="title" type="text" required
                             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                             placeholder="Enter Title">
                     </div>
                     <br/>
                     <div>
                         <label for="desc" class="sr-only">Description</label>
-                        <input id="desc" name="body" type="text" required
+                        <input id="desc" ngModel name="body" type="text" required
                             class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                             placeholder="Enter Description">
                     </div>
@@ -40,6 +40,24 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- data list -->
+
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="m-3 justify-center">
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Applicant Information</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
+        </div>
+        <div class="border-t border-gray-200">
+            <ul *ngFor ="let user of userList">
+                <li>{{user.id}}--{{user.title}}</li>
+            </ul>
         </div>
     </div>
 </div>
